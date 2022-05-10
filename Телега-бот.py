@@ -69,14 +69,6 @@ def mainbtns (message):
         bot.send_message(message.chat.id, 'Сделайте заметку о событии в любом удобном вам формате')
         bot.register_next_step_handler(message, get_notes)  
         
-    elif (message.text == 'Удалить'):
-        msg = bot.send_message(message.chat.id, 'Какое событие вы бы хотели удалить?')
-        bot.register_next_step_handler(message, delete1)
-        
-    elif (message.text == 'Изменить'):     
-        bot.send_message(message.chat.id, 'Какое событие вы бы хотели поменять?', reply_markup=markup)        
-        bot.register_next_step_handler(message, change)
-    
     else:
         bot.send_message(message.chat.id, text='Я вас не понимаю. Что вы хотите сделать?')
         
@@ -99,37 +91,4 @@ def get_notes(message):
     Note.append(Notification(date, time, notes, C))
     C +=1
     
-
-def delete1(message):
-    global Note
-    bot.send_message(message.chat.id, f'Выберите номер объетка для удаления(all для удаления всего):')
-    toprint = []
-    for i in Note:
-        toprint.append(i.date)
-        toprint.append(i.time)
-        toprint.append(i.notes)
-        toprint.append('\n\n')
-    msg = bot.send_message(message.chat.id, f'1. {*toprint}')
-    bot.register_next_step_handler(msg, delete2)
-    
-def delete2(message):
-    global Note
-    n = messege.text
-    if n == 'all':
-        Note = []
-        C = 0
-    
-    
-def change():
-    
-    
-    
- 
-
 bot.polling(none_stop=True)
-
-
-markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-btn1 = types.KeyboardButton('Время')
-btn2 = types.KeyboardButton('Дату')
-markup.add(btn1, btn2)        
